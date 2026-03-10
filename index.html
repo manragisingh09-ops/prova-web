@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEVERYOURS</title>
+    <!-- Font Awesome 5 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --rosa: #ff3b9b;
+            --rosa-light: #ffe0f0;
+            --bianco: #ffffff;
+        }
+
+        /* NAVBAR - PIÙ ALTA */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3rem 10rem;
+            background-color: var(--bianco);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 59, 155, 0.1);
+        }
+
+        .logo {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo svg {
+            height: 100%;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            font-weight: 400;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--rosa);
+            transition: width 0.2s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1.8rem;
+            font-size: 1.3rem;
+        }
+
+        .nav-icons i {
+            cursor: pointer;
+            transition: 0.2s;
+            color: #000;
+        }
+
+        .nav-icons i:hover {
+            color: var(--rosa);
+            transform: scale(1.1);
+        }
+
+        /* Hamburger menu - nascosto su desktop */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #000;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: var(--bianco);
+            z-index: 1001;
+            padding: 2rem;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--rosa-light);
+        }
+
+        .mobile-menu-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--rosa);
+            line-height: 1;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-menu-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1.3rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--rosa-light);
+            transition: 0.2s;
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--rosa);
+            padding-left: 10px;
+        }
+
+        .mobile-menu-icons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+            padding-top: 2rem;
+            border-top: 2px solid var(--rosa-light);
+        }
+
+        .mobile-menu-icons i {
+            font-size: 1.5rem;
+            color: #000;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mobile-menu-icons i:hover {
+            color: var(--rosa);
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* HERO VIDEO - ALTEZZA RIDOTTA */
+        .hero {
+            width: 100%;
+            background-color: #ff3b9b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        /* HERO VIDEO - ALTEZZA LEGGERMENTE AUMENTATA */
+        .hero video {
+            width: 100%;
+            height: auto;
+            max-height: 83vh;
+            /* Modificato da 70vh a 75vh */
+            display: block;
+            object-fit: fill;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        /* MARQUEE */
+        .marquee-section {
+            background-color: var(--rosa);
+            padding: 1.2rem 0;
+            overflow: hidden;
+            border-bottom: 2px solid var(--bianco);
+        }
+
+        .marquee {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 20s linear infinite;
+        }
+
+        .marquee span {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            color: var(--bianco);
+            margin-right: 4rem;
+            letter-spacing: 2px;
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* GALLERIA */
+        .gallery {
+            padding: 5rem 2rem;
+            background-color: var(--bianco);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+        }
+
+        .gallery-item.large {
+            grid-column: span 2;
+            grid-row: span 2;
+            aspect-ratio: auto;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(255, 59, 155, 0.9), transparent);
+            color: var(--bianco);
+            padding: 2rem 1.5rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.4s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* PRODOTTI */
+        .collection-section {
+            padding: 5rem 2rem;
+            background-color: var(--rosa-light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 1rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 3rem;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .section-header h2 span {
+            color: var(--rosa);
+            display: block;
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .section-link {
+            color: #000;
+            text-decoration: none;
+            border-bottom: 2px solid var(--rosa);
+            padding-bottom: 0.3rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .section-link:hover {
+            color: var(--rosa);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--bianco);
+            border-radius: 0;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 20px 30px -15px rgba(255, 59, 155, 0.3);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1.2;
+            object-fit: cover;
+            background-color: #f5f5f5;
+        }
+
+        .product-info {
+            padding: 1.5rem 1rem 1rem;
+            text-align: left;
+            border-top: 1px solid var(--rosa-light);
+        }
+
+        .product-info h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-category {
+            color: #888;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--rosa);
+            margin-top: 0.8rem;
+        }
+
+        .btn-add {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--rosa);
+            color: var(--rosa);
+            padding: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .btn-add:hover {
+            background: var(--rosa);
+            color: var(--bianco);
+        }
+
+        /* BANNER */
+        .banner {
+            background-color: var(--rosa);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--bianco);
+        }
+
+        .banner h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            line-height: 1.2;
+            letter-spacing: -2px;
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            margin: 1rem 0 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: var(--bianco);
+            color: var(--rosa);
+            border: none;
+            padding: 1rem 3rem;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 0;
+            letter-spacing: 2px;
+        }
+
+        .btn-white:hover {
+            background: #000;
+            color: var(--bianco);
+        }
+
+        /* SOCIAL FEEDS */
+        .social-feed {
+            padding: 5rem 2rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .social-header h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .social-header a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+        }
+
+        .social-header h3:hover {
+            color: var(--rosa);
+        }
+
+        .social-header i {
+            color: var(--rosa);
+            font-size: 2rem;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .social-header i:hover {
+            transform: scale(1.1);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .social-item {
+            aspect-ratio: 9/16;
+            background-color: var(--rosa-light);
+            position: relative;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: 0.3s;
+        }
+
+        .social-item:hover img {
+            filter: grayscale(0);
+            transform: scale(1.05);
+        }
+
+        .social-item i {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--bianco);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: 0.2s;
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-item:hover i {
+            opacity: 1;
+        }
+
+        .social-item::after {
+            content: '\f04b';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--bianco);
+            font-size: 2rem;
+            opacity: 0;
+            transition: 0.2s;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 59, 155, 0.8);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-item:hover::after {
+            opacity: 1;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #000;
+            color: var(--bianco);
+            padding: 4rem 4rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-logo svg {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-logo p {
+            margin-top: 1.5rem;
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-col h4 {
+            color: var(--rosa);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--rosa);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #666;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: var(--rosa);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 1.4rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #222;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom span {
+            color: var(--rosa);
+        }
+
+        .payment-icons i {
+            margin-left: 1rem;
+            font-size: 1.3rem;
+            color: #555;
+        }
+
+        @media (max-width: 1024px) {
+
+            .products-grid,
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .social-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 2rem;
+                justify-content: space-between;
+                position: relative;
+            }
+
+            .logo {
+                position: static;
+                transform: none;
+                height: 40px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-icons {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .banner h2 {
+                font-size: 2.5rem;
+            }
+
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR - PIÙ ALTA CON TUTTE LE SEZIONI -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="img/13FAB2B0-FDE4-4788-A61D-525C8FA89787-removebg-preview.png" alt="NEVERYOURS"
+                style="height: 120px; width: auto;">
+        </div>
+
+        <div class="nav-links">
+            <a href="#">HOME</a>
+            <a href="#">SHOP</a>
+            <a href="#">DROP</a>
+            <a href="#">ARCHIVE</a>
+            <a href="#">STORES</a>
+        </div>
+
+        <div class="nav-icons">
+            <i class="fas fa-user"></i>
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo" style="position: static; transform: none; height: 40px;">
+                <img src="img/13FAB2B0-FDE4-4788-A61D-525C8FA89787-removebg-preview.png" alt="NEVERYOURS"
+                    style="height: 40px; width: auto;">
+            </div>
+            <div class="mobile-menu-close" id="closeMenu">&times;</div>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#">HOME</a>
+            <a href="#">SHOP</a>
+            <a href="#">DROP</a>
+            <a href="#">ARCHIVE</a>
+            <a href="#">STORES</a>
+        </div>
+        <div class="mobile-menu-icons">
+            <i class="fas fa-user"></i>
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- HERO VIDEO -->
+    <section class="hero">
+        <video autoplay muted loop playsinline>
+            <source src="img/VIDEOINDEXNY.mov" type="video/mp4">
+        </video>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee">
+            <span>• BLESSED • NEVERYOURS • STREET CULTURE • BLESSED • NEVERYOURS • STREET CULTURE •</span>
+            <span>• BLESSED • NEVERYOURS • STREET CULTURE • BLESSED • NEVERYOURS • STREET CULTURE •</span>
+        </div>
+    </div>
+
+    <!-- GALLERIA -->
+    <section class="gallery">
+        <div class="gallery-grid">
+            <div class="gallery-item large">
+                <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=800" alt="Street style">
+                <div class="gallery-overlay">
+                    <h3>URBAN FLOW</h3>
+                    <p>Collezione Rosa/White</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800" alt="Street style">
+                <div class="gallery-overlay">
+                    <h3>STREET</h3>
+                    <p>New drop</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800" alt="Street style">
+                <div class="gallery-overlay">
+                    <h3>MINIMAL</h3>
+                    <p>Essential</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1554568218-0f1715e72254?w=800" alt="Street style">
+                <div class="gallery-overlay">
+                    <h3>ROSA</h3>
+                    <p>Signature</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800" alt="Street style">
+                <div class="gallery-overlay">
+                    <h3>WHITE</h3>
+                    <p>Pure</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLLECTION -->
+    <section class="collection-section">
+        <div class="section-header">
+            <h2>DROP 001<br><span>edizione rosa</span></h2>
+            <a href="#" class="section-link">Vedi tutto →</a>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=600" alt="Hoodie"
+                    class="product-img">
+                <div class="product-info">
+                    <span class="product-category">Felpe</span>
+                    <h3>Oversized Rosa Hoodie</h3>
+                    <div class="product-price">€89</div>
+                    <button class="btn-add">Aggiungi</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600" alt="T-Shirt"
+                    class="product-img">
+                <div class="product-info">
+                    <span class="product-category">T-Shirt</span>
+                    <h3>Graphic Pink Tee</h3>
+                    <div class="product-price">€45</div>
+                    <button class="btn-add">Aggiungi</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600" alt="Pants"
+                    class="product-img">
+                <div class="product-info">
+                    <span class="product-category">Pantaloni</span>
+                    <h3>Cargo White</h3>
+                    <div class="product-price">€79</div>
+                    <button class="btn-add">Aggiungi</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1556306535-0f09c53731c3?w=600" alt="Cap"
+                    class="product-img">
+                <div class="product-info">
+                    <span class="product-category">Accessori</span>
+                    <h3>Snapback Rosa</h3>
+                    <div class="product-price">€35</div>
+                    <button class="btn-add">Aggiungi</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER -->
+    <section class="banner">
+        <h2>PINK<br>EVERYTHING</h2>
+        <p>Limited edition - solo online</p>
+        <button class="btn-white">SHOP NOW</button>
+    </section>
+
+    <!-- TIKTOK REELS -->
+    <section class="social-feed">
+        <div class="social-header">
+            <a href="https://tiktok.com/@neveryours_it" target="_blank">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://tiktok.com/@neveryours_it" target="_blank">
+                <h3>@neveryours_it</h3>
+            </a>
+        </div>
+        <div class="social-grid">
+            <a href="https://tiktok.com/@neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=711&fit=crop"
+                    alt="TikTok Reel">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://tiktok.com/@neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=400&h=711&fit=crop"
+                    alt="TikTok Reel">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://tiktok.com/@neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=711&fit=crop"
+                    alt="TikTok Reel">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://tiktok.com/@neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1611162617261-4ecfb0b8e1cd?w=400&h=711&fit=crop"
+                    alt="TikTok Reel">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://tiktok.com/@neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=400&h=711&fit=crop"
+                    alt="TikTok Reel">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://tiktok.com/@neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1611162618609-9c8d1c8b3f2d?w=400&h=711&fit=crop"
+                    alt="TikTok Reel">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- INSTAGRAM REELS -->
+    <section class="social-feed">
+        <div class="social-header">
+            <a href="https://instagram.com/neveryours_it" target="_blank">
+                <h3>@neveryours_it</h3>
+            </a>
+            <a href="https://instagram.com/neveryours_it" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+        <div class="social-grid">
+            <a href="https://instagram.com/neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=711&fit=crop"
+                    alt="Instagram Reel">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://instagram.com/neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&h=711&fit=crop"
+                    alt="Instagram Reel">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://instagram.com/neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=711&fit=crop"
+                    alt="Instagram Reel">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://instagram.com/neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1554568218-0f1715e72254?w=400&h=711&fit=crop"
+                    alt="Instagram Reel">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://instagram.com/neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&h=711&fit=crop"
+                    alt="Instagram Reel">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://instagram.com/neveryours_it" target="_blank" class="social-item">
+                <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=711&fit=crop"
+                    alt="Instagram Reel">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="footer-logo">
+                <svg viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M30 25C30 11.2 41.2 0 55 0C68.8 0 80 11.2 80 25C80 38.8 68.8 50 55 50C41.2 50 30 38.8 30 25Z"
+                        fill="#FF3B9B" />
+                    <rect x="90" y="10" width="100" height="8" fill="#FF3B9B" />
+                    <rect x="90" y="30" width="80" height="8" fill="#FF3B9B" />
+                    <path d="M120 45L130 45L135 38L140 45L150 45L140 30L130 30L120 45Z" fill="#FF3B9B" />
+                    <text x="160" y="42" font-family="Arial" font-weight="bold" font-size="24" fill="#fff">WEAR</text>
+                </svg>
+                <p>Streetwear brand con attitudine.<br>Rosa è il nostro nero.</p>
+            </div>
+            <div class="footer-col">
+                <h4>SHOP</h4>
+                <ul>
+                    <li><a href="#">Nuovi arrivi</a></li>
+                    <li><a href="#">Felpe</a></li>
+                    <li><a href="#">T-Shirt</a></li>
+                    <li><a href="#">Accessori</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>INFO</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Spedizioni</a></li>
+                    <li><a href="#">Resi</a></li>
+                    <li><a href="#">Contatti</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>FOLLOW</h4>
+                <div class="social-links">
+                    <a href="https://instagram.com/neveryours_it" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://tiktok.com/@neveryours_it" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p style="margin-top: 2rem; color: #666;">Newsletter<br><span
+                        style="color: var(--rosa);">rosa@streetwear.com</span></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 <span>STREETWEAR</span> • Rosa & White</div>
+            <div class="payment-icons">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-apple-pay"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const overlay = document.getElementById('overlay');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', openMobileMenu);
+        closeMenu.addEventListener('click', closeMobileMenu);
+        overlay.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on a link
+        const mobileLinks = document.querySelectorAll('.mobile-menu-links a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+    </script>
+
+</body>
+
+</html>
